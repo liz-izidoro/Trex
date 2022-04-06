@@ -1,11 +1,11 @@
-// Variável Global
+// Variï¿½vel Global
 var trex ,trex_running;
 var edges;
-var ground;
+var ground, groundImg;
 
 function preload(){
   trex_running = loadAnimation("trex1.png", "trex3.png", "trex4.png");
-  
+  groundImg = loadImage("ground2.png");
 }
 
 function setup(){
@@ -20,12 +20,13 @@ function setup(){
   edges = createEdgeSprites();
 
   ground = createSprite(200, 180, 400, 20);
-  
+  ground.addImage("ground", groundImg);
 }
 
 function draw(){
   background("white");
-
+  ground.velocityX = -2 ;
+  console.log(ground.x);
   
   if (keyDown('space')) {
     trex.velocityY = -10;
