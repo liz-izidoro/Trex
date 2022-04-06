@@ -2,10 +2,12 @@
 var trex ,trex_running;
 var edges;
 var ground, groundImg;
+var cloud, cloudImg;
 
 function preload(){
   trex_running = loadAnimation("trex1.png", "trex3.png", "trex4.png");
   groundImg = loadImage("ground2.png");
+  cloudImg = loadImage("cloud.png");
 }
 
 function setup(){
@@ -21,15 +23,22 @@ function setup(){
 
   ground = createSprite(200, 180, 400, 20);
   ground.addImage("ground", groundImg);
+
+  
 }
 
 function draw(){
   background("white");
   ground.velocityX = -2 ;
-  console.log(ground.x);
   
   if (keyDown('space')) {
     trex.velocityY = -10;
+  }
+
+  // Resolve o problema do chão sumir
+  if (ground.x < 0) {
+    ground.x = ground.width / 2;
+    
   }
 
   trex.velocityY = trex.velocityY + 0.5;
@@ -37,5 +46,13 @@ function draw(){
   trex.collide(ground);
 
   drawSprites();
+}
 
+function createClouds() {
+
+  if (frameCount % 60 == 0) {
+    cloud = createSprite(100, 100, 30, 20);
+    cloud.addImage("cloud", cloudImg);
+  }
+  
 }
