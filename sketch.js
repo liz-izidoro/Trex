@@ -32,11 +32,12 @@ function draw(){
   
   ground.velocityX = -2 ;
   
-  if (keyDown('space')) {
+  if (keyDown('space') && trex.y >= 100) {
     trex.velocityY = -10;
+  
   }
 
-  // Resolve o problema do chão sumir
+  // Resolve o problema do chï¿½o sumir
   if (ground.x < 0) {
     ground.x = ground.width / 2;
     
@@ -56,6 +57,7 @@ function createClouds() {
   if (frameCount % 60 === 0) {
     cloud = createSprite(600, 100, 40, 10);
     cloud.addImage("cloud", cloudImg);
+    cloud.y = Math.round(random(10,  60));
     cloud.scale = 0.5;
     cloud.velocityX = -2;
   }
