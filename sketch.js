@@ -28,7 +28,8 @@ function setup(){
 }
 
 function draw(){
-  background("white");
+  background("black");
+  
   ground.velocityX = -2 ;
   
   if (keyDown('space')) {
@@ -45,14 +46,18 @@ function draw(){
   
   trex.collide(ground);
 
+  createClouds();
+
   drawSprites();
 }
 
 function createClouds() {
 
-  if (frameCount % 60 == 0) {
-    cloud = createSprite(100, 100, 30, 20);
+  if (frameCount % 60 === 0) {
+    cloud = createSprite(600, 100, 40, 10);
     cloud.addImage("cloud", cloudImg);
+    cloud.scale = 0.5;
+    cloud.velocityX = -2;
   }
   
 }
