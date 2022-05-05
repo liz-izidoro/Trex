@@ -4,6 +4,10 @@ var edges;
 var ground, groundImg;
 var cloud, cloudImg;
 var cacto1, cacto2, cacto3, cacto4, cacto5, cacto6;
+var groupcloud, groupcacto;
+const PLAY = 1;
+const END = 0;
+var gamestate = PLAY;
 
 function preload(){
   trex_running = loadAnimation("trex1.png", "trex3.png", "trex4.png");
@@ -31,30 +35,44 @@ function setup(){
   ground = createSprite(200, 180, 400, 20);
   ground.addImage("ground", groundImg);
 
-  
+  groupcloud = new Group();
+  groupcacto = new Group();
+
+
 }
 
 function draw(){
   background("black");
   
-  ground.velocityX = -2 ;
-  
-  if (keyDown('space') && trex.y >= 100) {
-    trex.velocityY = -10;
-  }
-
-  // Resolve o problema do ch�o sumir
-  if (ground.x < 0) {
-    ground.x = ground.width / 2;
+  if (gamestate === PLAY) {
+    ground.velocityX = -2 ;
     
-  }
-
-  trex.velocityY = trex.velocityY + 0.5;
+    if (keyDown('space') && trex.y >= 100) {
+      trex.velocityY = -10;
+    }
   
-  trex.collide(ground);
-
-  createClouds();
-  createCactos();
+    // Resolve o problema do ch�o sumir
+    if (ground.x < 0) {
+      ground.x = ground.width / 2;
+      
+    }
+  
+    trex.velocityY = trex.velocityY + 0.5;
+    
+    trex.collide(ground);
+  
+    createClouds();
+    createCactos();
+    if (groupcacto.isTouching(trex)) {
+      gamestate = END;
+    }
+    
+  } else if(gamestate === END) {
+    ground.velocityX = 0;
+    groupcloud.setVelocityXEach(0);
+    groupcacto.setVelocityXEach(0);
+  }
+  
   drawSprites();
 }
 
@@ -67,6 +85,7 @@ function createClouds() {
     cloud.scale = 0.5;
     cloud.velocityX = -2;
     cloud.lifetime = 300;
+    groupcloud.add(cloud);
   }
 }
 function createCactos() {
@@ -74,7 +93,7 @@ var cacto;
   if (frameCount % 60 === 0) {
     cacto = createSprite(600, 160, 40, 10);
     cacto.velocityX = -6;
-var aleatorio = Math.round(random(1, 6));
+    var aleatorio = Math.round(random(1, 6));
     switch (aleatorio) {
       case 1:
         cacto.addImage(cacto1);
@@ -100,9 +119,8 @@ var aleatorio = Math.round(random(1, 6));
     }
     cacto.scale = 0.5;
     cacto.lifetime = 150;
-    // cloud.y = Math.round(random(10,  60));
-    // cloud.scale = 0.5;
-    // cloud.velocityX = -2;
+    groupcacto.add(cacto);
+
   }
   
 }

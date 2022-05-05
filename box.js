@@ -1,4 +1,4 @@
-// método = function
+// mï¿½todo = function
 class Box
 {
     constructor(posX, posY, width, height, velocityX)
@@ -7,13 +7,16 @@ class Box
         this.posY = posY;
         this.width = width;
         this.height = height;
+        this.velocityX = velocityX;
     }
 
     show()
     {
-        console.log(this.posX);
-        console.log(this.posY);
-        console.log(this.width);
-        console.log(this.height);
+        rect(this.posX, this.posY, this.width, this.height);
+    }
+
+    move()
+    {
+        this.posX = this.posX + this.velocityX;
     }
 }
