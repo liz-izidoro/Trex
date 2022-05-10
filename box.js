@@ -1,4 +1,4 @@
-// mï¿½todo = function
+// método = function
 class Box
 {
     constructor(posX, posY, width, height, velocityX)

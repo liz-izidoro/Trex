@@ -1,10 +1,12 @@
-// Variï¿½vel Global
+// Variável Global
 var trex ,trex_running;
 var edges;
 var ground, groundImg;
 var cloud, cloudImg;
 var cacto1, cacto2, cacto3, cacto4, cacto5, cacto6;
 var groupcloud, groupcacto;
+var restart, restartImg, gameOver, gameOverImg;
+
 const PLAY = 1;
 const END = 0;
 var gamestate = PLAY;
@@ -19,6 +21,9 @@ function preload(){
   cacto4 = loadImage("obstacle4.png");
   cacto5 = loadImage("obstacle5.png");
   cacto6 = loadImage("obstacle6.png");
+
+  restartImg = loadImage("restart.png");
+  gameOverImg = loadImage("gameOver.png");
 }
 
 function setup(){
@@ -34,6 +39,16 @@ function setup(){
 
   ground = createSprite(200, 180, 400, 20);
   ground.addImage("ground", groundImg);
+
+  gameOver = createSprite(300, 100);
+  gameOver.addImage(gameOverImg);
+  gameOver.scale = 0.9;
+  gameOver.visible = false;
+  
+  restart = createSprite(300, 100);
+  restart.addImage(restartImg);
+  restart.scale = 0.4;
+  restart.visible = false;
 
   groupcloud = new Group();
   groupcacto = new Group();
@@ -51,7 +66,7 @@ function draw(){
       trex.velocityY = -10;
     }
   
-    // Resolve o problema do chï¿½o sumir
+    // Resolve o problema do chão sumir
     if (ground.x < 0) {
       ground.x = ground.width / 2;
       
@@ -69,6 +84,10 @@ function draw(){
     
   } else if(gamestate === END) {
     ground.velocityX = 0;
+
+    gameOver.visible = true;
+    restart.visible = true;
+
     groupcloud.setVelocityXEach(0);
     groupcacto.setVelocityXEach(0);
   }
