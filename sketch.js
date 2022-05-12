@@ -1,5 +1,5 @@
-// Variável Global
-var trex ,trex_running;
+// Vari?vel Global
+var trex ,trex_running, trex_collided;
 var edges;
 var ground, groundImg;
 var cloud, cloudImg;
@@ -24,6 +24,7 @@ function preload(){
 
   restartImg = loadImage("restart.png");
   gameOverImg = loadImage("gameOver.png");
+  trex_collided = loadAnimation("trex_collided.png");
 }
 
 function setup(){
@@ -32,6 +33,7 @@ function setup(){
   //crie um sprite de trex
   trex = createSprite(50,160,20,50);
   trex.addAnimation("running", trex_running);
+  trex.addAnimation("collided", trex_collided);
   trex.scale = 0.5;
   // trex.x = 50;
   
@@ -66,7 +68,7 @@ function draw(){
       trex.velocityY = -10;
     }
   
-    // Resolve o problema do chão sumir
+    // Resolve o problema do ch?o sumir
     if (ground.x < 0) {
       ground.x = ground.width / 2;
       
@@ -87,6 +89,8 @@ function draw(){
 
     gameOver.visible = true;
     restart.visible = true;
+
+    trex.changeAnimation("collided", trex_collided);    
 
     groupcloud.setVelocityXEach(0);
     groupcacto.setVelocityXEach(0);
