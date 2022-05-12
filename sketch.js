@@ -1,7 +1,6 @@
 // Vari?vel Global
 var trex ,trex_running, trex_collided;
-var edges;
-var ground, groundImg;
+var ground, groundImg, invisibleGround;
 var cloud, cloudImg;
 var cacto1, cacto2, cacto3, cacto4, cacto5, cacto6;
 var groupcloud, groupcacto;
@@ -37,25 +36,22 @@ function setup(){
   trex.scale = 0.5;
   // trex.x = 50;
   
-  edges = createEdgeSprites();
-
   ground = createSprite(200, 180, 400, 20);
   ground.addImage("ground", groundImg);
+
+  invisibleGround = createSprite(200,190,400,10);
+  invisibleGround.visible = false;
 
   gameOver = createSprite(300, 100);
   gameOver.addImage(gameOverImg);
   gameOver.scale = 0.9;
-  gameOver.visible = false;
   
   restart = createSprite(300, 100);
   restart.addImage(restartImg);
   restart.scale = 0.4;
-  restart.visible = false;
 
   groupcloud = new Group();
   groupcacto = new Group();
-
-
 }
 
 function draw(){
@@ -63,6 +59,9 @@ function draw(){
   
   if (gamestate === PLAY) {
     ground.velocityX = -2 ;
+
+    gameOver.visible = false;
+    restart.visible = false;
     
     if (keyDown('space') && trex.y >= 100) {
       trex.velocityY = -10;
@@ -75,11 +74,10 @@ function draw(){
     }
   
     trex.velocityY = trex.velocityY + 0.5;
-    
-    trex.collide(ground);
   
     createClouds();
     createCactos();
+    
     if (groupcacto.isTouching(trex)) {
       gamestate = END;
     }
@@ -94,9 +92,21 @@ function draw(){
 
     groupcloud.setVelocityXEach(0);
     groupcacto.setVelocityXEach(0);
+
+    if (mousePressedOver(restart)) {
+      reset();
+    }
   }
+
+  trex.collide(invisibleGround);
   
   drawSprites();
+}
+
+function reset()
+{
+  gamestate = PLAY;
+  trex.changeAnimation("running", trex_collided);
 }
 
 function createClouds() {
