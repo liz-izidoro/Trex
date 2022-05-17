@@ -1,10 +1,11 @@
-// Vari?vel Global
+// Variável Global
 var trex ,trex_running, trex_collided;
 var ground, groundImg, invisibleGround;
 var cloud, cloudImg;
 var cacto1, cacto2, cacto3, cacto4, cacto5, cacto6;
 var groupcloud, groupcacto;
 var restart, restartImg, gameOver, gameOverImg;
+var jumpSound, diedSound;
 
 const PLAY = 1;
 const END = 0;
@@ -24,6 +25,8 @@ function preload(){
   restartImg = loadImage("restart.png");
   gameOverImg = loadImage("gameOver.png");
   trex_collided = loadAnimation("trex_collided.png");
+  jumpSound = loadSound("jump.mp3");
+  diedSound = loadSound("collided.wav");
 }
 
 function setup(){
@@ -65,6 +68,7 @@ function draw(){
     
     if (keyDown('space') && trex.y >= 100) {
       trex.velocityY = -10;
+      jumpSound.play();
     }
   
     // Resolve o problema do ch?o sumir
@@ -79,6 +83,7 @@ function draw(){
     createCactos();
     
     if (groupcacto.isTouching(trex)) {
+      diedSound.play();
       gamestate = END;
     }
     
@@ -88,7 +93,7 @@ function draw(){
     gameOver.visible = true;
     restart.visible = true;
 
-    trex.changeAnimation("collided", trex_collided);    
+    trex.changeAnimation("collided", trex_collided);
 
     groupcloud.setVelocityXEach(0);
     groupcacto.setVelocityXEach(0);
